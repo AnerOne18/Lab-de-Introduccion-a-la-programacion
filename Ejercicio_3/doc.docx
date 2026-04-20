@@ -1,0 +1,12 @@
+La primera línea del código indica la creación de la variable intentos, la cual se inicializa en 0 y servirá para contar cuántas veces el usuario intenta ingresar al sistema.
+Después se crea un ciclo while que se ejecutará mientras la variable intentos sea menor que 3, lo que significa que el usuario solo tendrá tres oportunidades para ingresar correctamente sus datos.
+Dentro del ciclo se imprime la palabra Usuario y se utiliza input para que el usuario ingrese su nombre de usuario, el cual se guarda en la variable usuario. Luego se imprime Contraseña y se vuelve a usar input para guardar la contraseña en la variable contraseña.
+Posteriormente se hacen validaciones del usuario. Primero se verifica que el usuario no esté vacío comparándolo con un espacio vacío. Si está vacío, se imprime un mensaje de error, se aumenta el contador de intentos y se usa continue para volver al inicio del ciclo.
+Después se valida que el usuario sea alfanumérico usando el método isalnum, el cual verifica que solo contenga letras y números y que no tenga espacios ni símbolos. Si no cumple, se muestra un mensaje y se vuelve a aumentar el intento.
+Luego se valida la contraseña. Primero se verifica que tenga al menos 8 caracteres usando len. Si no cumple con la longitud mínima, se muestra un mensaje y se aumenta el contador.
+Después se crean dos variables llamadas tiene_letra y tiene_numero, las cuales se inicializan en False. Estas variables servirán para comprobar si la contraseña contiene al menos una letra y un número.
+Se utiliza un ciclo for para recorrer cada carácter de la contraseña. Si el carácter es una letra usando isalpha, la variable tiene_letra cambia a True. Si el carácter es un número usando isdigit, la variable tiene_numero cambia a True.
+Al finalizar el recorrido, se verifica si no tiene letra o no tiene número. Si alguna de las dos condiciones no se cumple, se muestra un mensaje indicando que debe contener al menos una letra y un número.
+Finalmente se comparan las credenciales ingresadas con las credenciales correctas que están escritas directamente en el código. Si coinciden, se muestra un mensaje de acceso concedido y se usa break para salir del ciclo. Si no coinciden, se aumenta el contador de intentos.
+Si el usuario falla tres veces, se muestra un mensaje indicando que se alcanzó el número máximo de intentos y el programa termina.
+
