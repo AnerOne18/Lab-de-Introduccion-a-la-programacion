@@ -1,163 +1,261 @@
-# 🔐 Login Streamlit App - Código Fuente
+# 🔐 Login Streamlit App - Explicación del Código
 
-A continuación se muestra el código principal de la aplicación desarrollada con Streamlit:
+## 📌 Introducción
+
+Este programa es una aplicación web creada con **Streamlit**, la cual implementa un sistema de inicio de sesión (login) y un menú visual con tarjetas que contienen diferentes opciones.
 
 ---
 
-## 📌 Código
+## 📦 Importaciones
 
 ```python
 import streamlit as st
 import base64
+```
 
+* `streamlit`: permite crear interfaces web de forma sencilla con Python.
+* `base64`: se utiliza para convertir imágenes a texto codificado y poder usarlas dentro del HTML/CSS.
+
+---
+
+## 🧱 Clase principal
+
+```python
 class LoginStreamlitApp:
-    def __init__(self) -> None:
-        self.usuario_correcto = "admin"
-        self.contrasena_correcta = "Admin2026"
+```
 
-        if "autenticado" not in st.session_state:
-            st.session_state.autenticado = False
+Se define una clase que contiene toda la lógica del programa, esto ayuda a mantener el código organizado.
 
-    # 🔹 Convertir imagen a base64
-    def get_base64(self, file):
-        with open(file, "rb") as f:
-            return base64.b64encode(f.read()).decode()
+---
 
-    def ejecutar(self) -> None:
-        st.set_page_config(page_title="Login Streamlit", page_icon="🔐", layout="wide")
+## ⚙️ Constructor (`__init__`)
 
-        # 🌌 Fondo (usa tu imagen local)
-        bg = self.get_base64("fondo.jpg")
+```python
+def __init__(self) -> None:
+    self.usuario_correcto = "admin"
+    self.contrasena_correcta = "Admin2026"
+```
 
-        st.markdown(f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/jpg;base64,{bg}");
-            background-size: cover;
-            background-position: center;
-        }}
+Aquí se definen las credenciales correctas para el login.
 
-        .card {{
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0px 8px 20px rgba(0,0,0,0.6);
-            transition: 0.3s;
-        }}
+```python
+if "autenticado" not in st.session_state:
+    st.session_state.autenticado = False
+```
 
-        .card:hover {{
-            transform: scale(1.05);
-        }}
+* `session_state` guarda información mientras la app está activa.
+* Se usa para saber si el usuario ya inició sesión o no.
 
-        .card-img {{
-            height: 200px;
-            background-size: cover;
-            background-position: center;
-        }}
+---
 
-        .card-body {{
-            padding: 20px;
-            background: linear-gradient(135deg, #800020, #4B0000);
-            color: white;
-            text-align: center;
-        }}
+## 🖼️ Función `get_base64`
 
-        .card-title {{
-            font-size: 22px;
-            font-weight: bold;
-        }}
-        </style>
-        """, unsafe_allow_html=True)
+```python
+def get_base64(self, file):
+    with open(file, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+```
 
-        if st.session_state.autenticado:
-            self.mostrar_menu()
-        else:
-            self.mostrar_login()
+Esta función:
 
-    def mostrar_login(self) -> None:
-        st.title("🔐 Login")
+1. Abre una imagen en modo binario (`rb`)
+2. La convierte a base64
+3. La devuelve como texto
 
-        with st.form("form_login"):
-            usuario = st.text_input("Usuario")
-            contrasena = st.text_input("Contraseña", type="password")
-            enviar = st.form_submit_button("Ingresar", use_container_width=True)
+👉 Esto permite insertar imágenes directamente en el diseño usando CSS.
 
-        if enviar:
-            if usuario.strip() == self.usuario_correcto and contrasena.strip() == self.contrasena_correcta:
-                st.session_state.autenticado = True
-                st.rerun()
-            else:
-                st.error("Credenciales incorrectas")
+---
 
-    def mostrar_menu(self) -> None:
-        # ❌ X = cerrar sesión
-        col1, col2 = st.columns([10,1])
-        with col2:
-            if st.button("❌"):
-                st.session_state.autenticado = False
-                st.rerun()
+## 🚀 Función principal `ejecutar`
 
-        st.title("🌌 Menú del sistema")
+```python
+def ejecutar(self) -> None:
+```
 
-        col1, col2, col3 = st.columns(3)
+Es la función que arranca toda la aplicación.
 
-        # 🪐 PLANETA
-        planeta = self.get_base64("planeta.png")
-        with col1:
-            st.markdown(f"""
-            <div class="card">
-                <div class="card-img" style="background-image:url('data:image/jpg;base64,{planeta}');"></div>
-                <div class="card-body">
-                    <div class="card-title">Clasificar número</div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+---
 
-        # 🕳️ AGUJERO NEGRO
-        agujero = self.get_base64("agujero.jpg")
-        with col2:
-            st.markdown(f"""
-            <div class="card">
-                <div class="card-img" style="background-image:url('data:image/jpg;base64,{agujero}');"></div>
-                <div class="card-body">
-                    <div class="card-title">Categoría de edad</div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+### 🎨 Configuración de la página
 
-        # ✨ CUÁSAR
-        cuasar = self.get_base64("cuasar.jpg")
-        with col3:
-            st.markdown(f"""
-            <div class="card">
-                <div class="card-img" style="background-image:url('data:image/jpg;base64,{cuasar}');"></div>
-                <div class="card-body">
-                    <div class="card-title">Calcular tarifa</div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+```python
+st.set_page_config(page_title="Login Streamlit", page_icon="🔐", layout="wide")
+```
 
+* Define el título de la pestaña
+* Define el icono
+* Usa un layout ancho
 
-# Ejecutar app
-app = LoginStreamlitApp()
-app.ejecutar()
+---
+
+### 🌌 Fondo de pantalla
+
+```python
+bg = self.get_base64("fondo.jpg")
+```
+
+Se obtiene la imagen del fondo en base64.
+
+```python
+background-image: url("data:image/jpg;base64,{bg}");
+```
+
+Esto permite poner la imagen como fondo de toda la aplicación.
+
+---
+
+### 🎭 Estilos CSS
+
+Se usa `st.markdown` con HTML para definir estilos personalizados:
+
+* `.card`: diseño de tarjetas
+* `.card:hover`: animación al pasar el mouse
+* `.card-img`: imagen dentro de la tarjeta
+* `.card-body`: contenido
+* `.card-title`: título
+
+👉 Esto hace que la app se vea más moderna.
+
+---
+
+## 🔀 Lógica de navegación
+
+```python
+if st.session_state.autenticado:
+    self.mostrar_menu()
+else:
+    self.mostrar_login()
+```
+
+* Si el usuario ya inició sesión → muestra el menú
+* Si no → muestra el login
+
+---
+
+## 🔐 Función `mostrar_login`
+
+```python
+st.title("🔐 Login")
+```
+
+Muestra el título.
+
+```python
+with st.form("form_login"):
+```
+
+Crea un formulario.
+
+```python
+usuario = st.text_input("Usuario")
+contrasena = st.text_input("Contraseña", type="password")
+```
+
+* Campo de usuario
+* Campo de contraseña (oculta)
+
+```python
+if enviar:
+```
+
+Cuando se presiona el botón:
+
+* Compara los datos ingresados con los correctos
+
+* Si coinciden:
+
+  ```python
+  st.session_state.autenticado = True
+  st.rerun()
+  ```
+
+  👉 Guarda la sesión y recarga la app
+
+* Si no:
+
+  ```python
+  st.error("Credenciales incorrectas")
+  ```
+
+---
+
+## 📋 Función `mostrar_menu`
+
+### 🔴 Botón de cerrar sesión
+
+```python
+if st.button("❌"):
+```
+
+* Cambia el estado a `False`
+* Regresa al login
+
+---
+
+### 📌 Título
+
+```python
+st.title("🌌 Menú del sistema")
 ```
 
 ---
 
-## 📌 Descripción general
+### 🧩 Columnas
 
-Este código implementa:
+```python
+col1, col2, col3 = st.columns(3)
+```
 
-* Un sistema de autenticación básico
-* Manejo de sesiones con `session_state`
-* Uso de imágenes en base64 para interfaz visual
-* Un menú con tarjetas estilizadas usando HTML y CSS
+Divide la pantalla en 3 secciones.
 
 ---
 
-## ⚠️ Nota
+### 🪐 Tarjeta 1: Clasificar número
 
-El funcionamiento correcto depende de que existan los archivos:
+```python
+planeta = self.get_base64("planeta.png")
+```
+
+Carga la imagen.
+
+```html
+<div class="card">
+```
+
+Muestra una tarjeta con:
+
+* Imagen
+* Título
+
+---
+
+### 🕳️ Tarjeta 2: Categoría de edad
+
+Funciona igual que la anterior, pero con otra imagen.
+
+---
+
+### ✨ Tarjeta 3: Calcular tarifa
+
+Mismo funcionamiento con diferente contenido.
+
+---
+
+## ▶️ Ejecución del programa
+
+```python
+app = LoginStreamlitApp()
+app.ejecutar()
+```
+
+* Se crea una instancia de la clase
+* Se ejecuta la aplicación
+
+---
+
+## ⚠️ Consideraciones importantes
+
+Para que funcione correctamente, deben existir estos archivos:
 
 * `fondo.jpg`
 * `planeta.png`
@@ -166,3 +264,13 @@ El funcionamiento correcto depende de que existan los archivos:
 
 ---
 
+## 🧠 Conclusión
+
+Este programa:
+
+* Implementa un sistema de login básico
+* Usa sesiones para mantener el estado del usuario
+* Aplica estilos personalizados con CSS
+* Utiliza imágenes en base64 para mejorar la interfaz
+
+---
