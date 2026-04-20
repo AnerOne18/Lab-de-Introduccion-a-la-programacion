@@ -1,26 +1,180 @@
-# 🔐 Sistema de Login y Menú Interactivo en Python
+# 💰 Cálculo de Tarifa con Descuentos - Explicación del Código
 
 ## 📌 Introducción
 
-Este programa implementa:
+Este fragmento de código calcula el precio final de una tarifa considerando:
 
-* Un sistema de **inicio de sesión con validaciones**
-* Un **límite de intentos**
-* Un **menú interactivo**
-* Tres funcionalidades principales:
+* Edad del usuario
+* Día de la semana
+* Si es estudiante
+* Si es miembro
+* Método de pago
 
-  * Clasificar números
-  * Categoría de edad
-  * Cálculo de tarifa
+Además, aplica descuentos acumulativos con un límite máximo.
 
 ---
 
-# 🔑 Sistema de Login
-
-## 🔁 Control de intentos
+# 💵 Precio base
 
 ```python
-intentos = 0
+tarifa_base = 200
+```
+
+👉 Se define el costo inicial del servicio.
+
+---
+
+# 📥 Entrada de datos
+
+```python
+edad = int(input("Ingresa tu edad (0 a 120): "))
+dia = int(input("Día de la semana (1=lunes ...7=domingo): "))
+estudiante = input("¿Eres estudiante? (s/n): ").lower()
+miembro = input("¿Eres miembro? (s/n): ").lower()
+metodo = input("Método de pago E(efectivo) T(tarjeta): ").lower()
+```
+
+Se solicitan datos al usuario:
+
+* Edad → número entero
+* Día → número del 1 al 7
+* Estudiante → "s" o "n"
+* Miembro → "s" o "n"
+* Método → "e" o "t"
+
+👉 `.lower()` asegura que no importe si el usuario usa mayúsculas o minúsculas.
+
+---
+
+# 🧮 Variables de control
+
+```python
+descuento = 0
+recargo = 0
+```
+
+* `descuento` → porcentaje acumulado
+* `recargo` → porcentaje extra
+
+---
+
+# 📅 Recargo por fin de semana
+
+```python
+if dia == 6 or dia == 7:
+    recargo = 0.10
+```
+
+👉 Si es sábado o domingo, se agrega un **10% extra**
+
+---
+
+# 🎯 Descuento por edad
+
+```python
+if edad <= 12:
+    descuento += 0.50
+elif edad <= 17:
+    descuento += 0.20
+elif edad >= 65:
+    descuento += 0.30
+```
+
+* Niños → 50%
+* Adolescentes → 20%
+* Adultos mayores → 30%
+
+---
+
+# 🎓 Descuento por estudiante
+
+```python
+if estudiante == "s" and edad >= 13:
+    descuento += 0.15
+```
+
+👉 Aplica solo si:
+
+* Es estudiante
+* Tiene 13 años o más
+
+---
+
+# 🧾 Descuento por miembro
+
+```python
+if miembro == "s":
+    descuento += 0.10
+```
+
+👉 Aplica un 10% adicional
+
+---
+
+# 💳 Descuento por método de pago
+
+```python
+if metodo == "e":
+    descuento += 0.05
+```
+
+👉 Si paga en efectivo → 5% de descuento
+
+---
+
+# ⚠️ Límite de descuento
+
+```python
+if descuento > 0.60:
+    descuento = 0.60
+```
+
+👉 El descuento máximo permitido es **60%**
+
+---
+
+# 🧮 Cálculo final
+
+```python
+tarifa_final = tarifa_base * (1 - descuento) * (1 + recargo)
+```
+
+👉 Fórmula:
+
+* Primero se aplica el descuento
+* Luego se suma el recargo
+
+---
+
+# 🖨️ Resultado
+
+```python
+print(f"La tarifa final es: {tarifa_final:.2f}")
+```
+
+👉 Muestra el resultado con **2 decimales**
+
+---
+
+# 🧠 Conclusión
+
+Este código demuestra:
+
+* Uso de condiciones (`if`, `elif`)
+* Manejo de porcentajes
+* Validación básica de entradas
+* Aplicación de múltiples descuentos acumulativos
+
+---
+
+# ⚠️ Observaciones
+
+* No valida si los datos ingresados son incorrectos (puede fallar con texto)
+* El cálculo está bien optimizado y más limpio que versiones anteriores
+* Usa una fórmula más elegante para calcular el total
+
+---
+
 
 while intentos < 3:
 ```
